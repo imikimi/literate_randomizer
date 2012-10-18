@@ -40,6 +40,7 @@ describe LiterateRandomizer do
     new_lr.sentance(:words => 5).should == "Bad job for a final?"
     new_lr.sentance(:words => 7).should == "Bad job for a final credit of?"
     new_lr.sentance(:words => 9).should == "Bad job for a final credit of the side?"
+    new_lr.sentance(:words => 2..7).should == "Bad job for a final credit?"
   end
 
   it "successive calls should vary" do
@@ -52,5 +53,18 @@ describe LiterateRandomizer do
   it "paragraph should work" do
     lr = new_lr
     lr.paragraph.should == "Bad form of my own chances are a riding-whip! Hit you that book down below as his tattered sketch-book which held. Seated upon their journey up my sleeve and incalculable people start to-morrow! Telling you propose to this half-educated age of the bushes at last supreme! Placed over us. Rubbing his strong sunlight struck me and Fate with the effect of. Columns until he came at a. Elusive enemies while beneath the main river up in it because on. Fully justified in the big as the bank of that the. Variety of photographs said for the words!"
+  end
+
+  it "first_word should work" do
+    new_lr.paragraph(:sentances => 5, :words=>3).should == "Bad job for? Discreetly vague way. Melee in the. Gleam of a. Puffing red-faced irascible."
+    new_lr.paragraph(:sentances => 2..4, :words=>3).should == "Bad job for? Discreetly vague way. Melee in the."
+  end
+
+  it "first_word should work" do
+    new_lr.paragraph(:first_word => "A",:sentances => 5, :words=>3).should == "A roaring rumbling. Instanced a most. Melee in the. Gleam of a. Puffing red-faced irascible."
+  end
+
+  it "punctuation should work" do
+    new_lr.paragraph(:punctuation => "!!!",:sentances => 5, :words=>3).should == "Bad job for? Discreetly vague way. Melee in the. Gleam of a. Puffing as a!!!"
   end
 end
