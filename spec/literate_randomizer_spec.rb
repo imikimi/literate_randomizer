@@ -56,7 +56,7 @@ describe LiterateRandomizer do
 
   it "paragraph should work" do
     lr = new_lr
-    lr.paragraph.should == "Bad form of my own chances are a riding-whip! Hit you that book down below as his tattered sketch-book which held. Seated upon their journey up my sleeve and incalculable people start to-morrow! Telling you propose to this half-educated age of the bushes at last supreme! Placed over us. Rubbing his strong sunlight struck me and Fate with the effect of. Columns until he came at a. Elusive enemies while beneath the main river up in it because on. Fully justified in the big as the bank of that the. Variety of photographs said for the words!"
+    lr.paragraph.should == "Bad form of my own chances are a riding-whip! Hit you that book down below as his tattered sketch-book which held. Seated upon their journey up my sleeve and incalculable people start to-morrow! Telling you propose to this half-educated age of the bushes at last supreme! Placed over us. Rubbing his strong sunlight struck me and Fate with the effect of. Columns until he came at a last. Elusive enemies while beneath the main river up in it because on a boiling. Burying its doe and knees and round his arms. Scraps of what came a Project Gutenberg-tm and the secret haunts."
   end
 
   it "first_word should work" do
@@ -81,12 +81,12 @@ describe LiterateRandomizer do
     LiterateRandomizer.respond_to?(:fonsfoaihdsfa).should == false
     LiterateRandomizer.word.should == "own"
     LiterateRandomizer.sentance.should == "Beak filled in the side of Vertebrate Evolution and up into private."
-    LiterateRandomizer.paragraph.should == "GUTENBERG-tm concept of their rat-trap grip upon Challenger of the carrying of. Precipices of me. Telling you propose to this half-educated age of the bushes at last supreme! Placed over us. Rubbing his strong sunlight struck me and Fate with the effect of. Columns until he came at a. Elusive enemies while beneath the main river up in it because on."
+    LiterateRandomizer.paragraph.should == "GUTENBERG-tm concept of their rat-trap grip upon Challenger of the carrying of. Precipices of me. Telling you propose to this half-educated age of the bushes at last supreme! Placed over us. Rubbing his strong sunlight struck me and Fate with the effect of. Columns until he came at a last. Elusive enemies while beneath the main river up in it because on a boiling."
   end
 
   it "global_randomizer_should forwarding should work" do
-    LiterateRandomizer.paragraphs(:words =>2, :sentances => 2).should == "Bad job?\n\nInstanced a.\n\nEight after.\n\nHopin that."
-    LiterateRandomizer.paragraphs(:words =>2, :sentances => 2, :join=>"--").should == "Executive and.--Puffing red-faced.--Discover a!"
-    LiterateRandomizer.paragraphs(:words =>2, :sentances => 2, :join=>false).should == ["Sharply at!", "Telling you!", "Mend it.", "Considerate of."]
+    LiterateRandomizer.paragraphs(:words =>2, :sentances => 2).should == "Bad job? Instanced a.\n\nEight after. Hopin that.\n\nGleam of. Puffing red-faced.\n\nDiscover a! Mass of."
+    LiterateRandomizer.paragraphs(:words =>2, :sentances => 2, :join=>"--").should == "Telling you! Mend it.--Considerate of. Albany and?--Fame or. The weak."
+    LiterateRandomizer.paragraphs(:words =>2, :sentances => 2, :join=>false).should == ["Prime mover. Historical architecture!", "Reporters down! Again the.", "Their position. Dressing down.", "Gigantic old. Huge steamers."]
   end
 end

@@ -79,6 +79,11 @@ class MarkovChain
     populate_markov_sum
   end
 
+  def max(r)
+    return r if r.kind_of? Integer
+    r.max
+  end
+
   def rand_count(r)
     return r if r.kind_of? Integer
     rand(r.max-r.min)+r.min
@@ -106,9 +111,9 @@ class MarkovChain
     sum = @markov_weighted_sum[word]
     random = rand(sum)+1
     partial_sum = 0
-    markov_words[word].find do |word, count|
+    markov_words[word].find do |w, count|
       partial_sum += count
-      partial_sum >= random
+      w!=word && partial_sum >= random
     end.first
   end
   
@@ -137,6 +142,13 @@ class MarkovChain
   def punctuation
     @punctuation_distribution[rand(@punctuation_distribution.length)]
   end
+
+  def extend_trailing_preposition(max_words,words)
+    while words.length < max_words && words[-1] && words[-1][/^(the|to|and|a|in|that|it|is|was|for|on)$/]
+      words << next_word(words[-1])
+    end
+    words
+  end
   
   # return a random sentance
   # options:
@@ -145,12 +157,17 @@ class MarkovChain
   #   * :punctuation => nil - punction to end the sentance with (nil == randomly selected from punctuation_distribution)
   def sentance(options={})
     word = options[:first_word] || self.markov_word
-    count = rand_count options[:words] || (3..15)
+    num_words_option = options[:words] || (3..15)
+    count = rand_count num_words_option
     punctuation = options[:punctuation] || self.punctuation
 
-    capitalize(count.times.collect do 
+    words = count.times.collect do 
       word.tap {word = next_word(word)}
-    end.compact.join(" ") + punctuation)
+    end.compact
+
+    words = extend_trailing_preposition(max(num_words_option), words)
+
+    capitalize words.compact.join(" ") + punctuation
   end
   
   # return a random paragraph
@@ -170,7 +187,7 @@ class MarkovChain
     end.join(" ")
   end
 
-  # return a random paragraphs
+  # return random paragraphs
   # options:
   #   * :first_word => nil - the first word of the paragraph
   #   * :words => range or int - number of words in sentance
