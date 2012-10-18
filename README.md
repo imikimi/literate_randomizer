@@ -58,7 +58,7 @@ If you just want to use a single, global instance, you can initialize and access
     LiterateRandomizer.global(options={})
 
     # after the first call, options are ignored and the existing randomizer is returned
-    LiterateRandomizer::global.sentance
+    LiterateRandomizer.global.sentance
     # => "Muscular arms round opening of sorts while Lord John Roxton." 
 
 ## Contributing
