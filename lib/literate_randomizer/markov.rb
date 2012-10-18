@@ -5,6 +5,7 @@
 module LiterateRandomizer
 class MarkovChain
   DEFAULT_PUNCTUATION_DISTRIBUTION = %w{. . . . . . . . . . . . . . . . ? !}
+  PREPOSITION_REGEX = /^(the|to|and|a|in|that|it|if|is|was|for|on|as)$/
   attr_accessor :randomizer, :init_options, :punctuation_distribution
   attr_reader :markov_words, :words, :first_words
 
@@ -144,7 +145,7 @@ class MarkovChain
   end
 
   def extend_trailing_preposition(max_words,words)
-    while words.length < max_words && words[-1] && words[-1][/^(the|to|and|a|in|that|it|if|is|was|for|on)$/]
+    while words.length < max_words && words[-1] && words[-1][PREPOSITION_REGEX]
       words << next_word(words[-1])
     end
     words
