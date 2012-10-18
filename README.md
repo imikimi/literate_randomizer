@@ -50,6 +50,16 @@ Advanced example:
     lr.paragraph :sentances => 5, :words => 3..8, :first_word => "A", :punctuation => "!!!"
     # => "A dense mob of our. Gods on that Challenger. Invariably to safety though. Weaponless but it my! Some bandy-legged lurching creature!!!"       
 
+If you just want to use a single, global instance, you can initialize and access it this way:
+
+    # initialize on first call
+    # use the same options as .create
+    LiterateRandomizer::global(options={})
+
+    # after the first call, options are ignored and the existing randomizer is returned
+    LiterateRandomizer::global.sentance
+    # => "Muscular arms round opening of sorts while Lord John Roxton." 
+
 ## Contributing
 
 1. Fork it

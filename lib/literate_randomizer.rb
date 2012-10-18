@@ -7,4 +7,9 @@ module LiterateRandomizer
   def LiterateRandomizer::create(options={})
     MarkovChain.new options
   end
+
+  def LiterateRandomizer::global(options={})
+    MarkovChain.global options
+  end
+
 end

@@ -67,4 +67,8 @@ describe LiterateRandomizer do
   it "punctuation should work" do
     new_lr.paragraph(:punctuation => "!!!",:sentances => 5, :words=>3).should == "Bad job for? Discreetly vague way. Melee in the. Gleam of a. Puffing as a!!!"
   end
+
+  it "global_randomizer_should work" do
+    LiterateRandomizer::global.class.should == LiterateRandomizer::MarkovChain
+  end
 end

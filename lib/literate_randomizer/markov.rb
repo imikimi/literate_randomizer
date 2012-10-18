@@ -97,6 +97,12 @@ class MarkovChain
     populate
   end
 
+  class << self
+    def global(options={})
+      @global_randomizer = MarkovChain.new options
+    end
+  end
+
   def inspect
     "#<#{self.class}: #{@words.length} words, #{@markov_words.length} word-chains, #{@first_words.length} first_words>"
   end
