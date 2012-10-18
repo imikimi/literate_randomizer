@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = LiterateRandomizer::VERSION
   gem.authors       = ["Shane Brinkman-Davis"]
   gem.email         = ["shanebdavis@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{A random sentence and paragraph generator gem. Using Markov chains, this generates near-english prose.}
+  gem.summary       = %q{A random sentence and paragraph generator gem. Using Markov chains, this generates near-english prose.}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($/)
