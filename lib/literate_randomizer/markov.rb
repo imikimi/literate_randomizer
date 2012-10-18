@@ -5,7 +5,7 @@
 module LiterateRandomizer
 class MarkovChain
   DEFAULT_PUNCTUATION_DISTRIBUTION = %w{. . . . . . . . . . . . . . . . ? !}
-  PREPOSITION_REGEX = /^(the|to|and|a|in|that|it|if|is|was|for|on|as)$/
+  PREPOSITION_REGEX = /^(the|to|and|a|in|that|it|if|is|was|for|on|as|an)$/
   attr_accessor :randomizer, :init_options, :punctuation_distribution
   attr_reader :markov_words, :words, :first_words
 
@@ -112,10 +112,10 @@ class MarkovChain
     sum = @markov_weighted_sum[word]
     random = rand(sum)+1
     partial_sum = 0
-    markov_words[word].find do |w, count|
+    (markov_words[word].find do |w, count|
       partial_sum += count
       w!=word && partial_sum >= random
-    end.first
+    end||[]).first
   end
   
   def rand(limit=nil)
