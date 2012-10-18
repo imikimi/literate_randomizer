@@ -6,7 +6,7 @@
 module LiterateRandomizer
 class MarkovChain
   DEFAULT_PUNCTUATION_DISTRIBUTION = %w{. . . . . . . . . . . . . . . . ? !}
-  PREPOSITION_REGEX = /^(the|to|or|and|a|in|that|it|if|of|is|was|for|on|as|an|your|our|my|per|until)$/
+  PREPOSITION_REGEX = /^(had|the|to|or|and|a|in|that|it|if|of|is|was|for|on|as|an|your|our|my|per|until)$/
   attr_accessor :randomizer, :init_options, :punctuation_distribution
   attr_reader :markov_words, :words, :first_words
 
@@ -42,7 +42,7 @@ class MarkovChain
     word.chars.first.upcase+word[1..-1]
   end
 
-  def source_sentances
+  def source_sentences
     source_material.split(/([.?!"]\s|--| ')+/)
   end
 
@@ -57,8 +57,8 @@ class MarkovChain
     @markov_words = {}
     @words = {}
     @first_words = {}
-    source_sentances.each do |sentance|
-      word_list = scrub_word_list sentance
+    source_sentences.each do |sentence|
+      word_list = scrub_word_list sentence
       @first_words[word_list[0]] = true
       word_list.each_with_index do |word, index|
         @words[word] = true
@@ -129,13 +129,13 @@ class MarkovChain
     @cached_word_keys[rand(@cached_word_keys.length)]
   end
 
-  # return a random first word of a sentance
+  # return a random first word of a sentence
   def first_word 
     @cached_first_word_keys ||= first_words.keys
     @cached_first_word_keys[rand(@cached_first_word_keys.length)]
   end
 
-  # return a random first word of a sentance
+  # return a random first word of a sentence
   def markov_word 
     @cached_markov_word_keys ||= markov_words.keys
     @cached_markov_word_keys[rand(@cached_markov_word_keys.length)]
@@ -152,12 +152,12 @@ class MarkovChain
     words
   end
   
-  # return a random sentance
+  # return a random sentence
   # options:
   #   * :first_word => nil - the start word
-  #   * :words => range or int - number of words in sentance
-  #   * :punctuation => nil - punction to end the sentance with (nil == randomly selected from punctuation_distribution)
-  def sentance(options={})
+  #   * :words => range or int - number of words in sentence
+  #   * :punctuation => nil - punction to end the sentence with (nil == randomly selected from punctuation_distribution)
+  def sentence(options={})
     word = options[:first_word] || self.markov_word
     num_words_option = options[:words] || (3..15)
     count = rand_count num_words_option
@@ -175,25 +175,25 @@ class MarkovChain
   # return a random paragraph
   # options:
   #   * :first_word => nil - the first word of the paragraph
-  #   * :words => range or int - number of words in sentance
-  #   * :sentances => range or int - number of sentances in paragraph
+  #   * :words => range or int - number of words in sentence
+  #   * :sentences => range or int - number of sentences in paragraph
   #   * :punctuation => nil - punction to end the paragraph with (nil == randomly selected from punctuation_distribution)
   def paragraph(options={})
-    count = rand_count options[:sentances] || (5..15)
+    count = rand_count options[:sentences] || (5..15)
 
     count.times.collect do |i|
       op = options.clone
       op.delete :punctuation unless i==count-1
       op.delete :first_word unless i==0
-      sentance op
+      sentence op
     end.join(" ")
   end
 
   # return random paragraphs
   # options:
   #   * :first_word => nil - the first word of the paragraph
-  #   * :words => range or int - number of words in sentance
-  #   * :sentances => range or int - number of sentances in paragraph
+  #   * :words => range or int - number of words in sentence
+  #   * :sentences => range or int - number of sentences in paragraph
   #   * :paragraphs => range or int - number of paragraphs in paragraph
   #   * :join => "\n\n" - join the paragraphs. if :join => false, returns an array of the paragraphs
   #   * :punctuation => nil - punction to end the paragraph with (nil == randomly selected from punctuation_distribution)

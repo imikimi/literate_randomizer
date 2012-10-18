@@ -27,7 +27,7 @@ Example:
     lr.word
     # => "frivolous" 
 
-    lr.sentance
+    lr.sentence
     # => "Muscular arms round opening of sorts while Lord John Roxton." 
 
     lr.paragraph
@@ -57,23 +57,23 @@ When creating a randomizer, there are a few options. The source_material should 
 
     LiterateRandomizer.paragraph(options={})
       :first_word => nil - the start word
-      :words => range or int - number of words in sentance
-      :sentances => range or int - number of sentances in paragraph
-      :punctuation => nil - punction to end the sentance with (nil == randomly selected from punctuation_distribution)
+      :words => range or int - number of words in sentence
+      :sentences => range or int - number of sentences in paragraph
+      :punctuation => nil - punction to end the sentence with (nil == randomly selected from punctuation_distribution)
 
 **paragraphs** options:
 
     LiterateRandomizer.paragraphs(options={})
       :first_word => nil - the first word of the paragraph
-      :words => range or int - number of words in sentance
-      :sentances => range or int - number of sentances in paragraph
+      :words => range or int - number of words in sentence
+      :sentences => range or int - number of sentences in paragraph
       :punctuation => nil - punction to end the paragraph with (nil == randomly selected from punctuation_distribution)
       :paragraphs => range or int - number of paragraphs in paragraph
       :join => "\n\n" - join the paragraphs. if :join => false, returns an array of the paragraphs
 
 Advanced example:
 
-    lr.paragraph :sentances => 5, :words => 3..8, :first_word => "A", :punctuation => "!!!"
+    lr.paragraph :sentences => 5, :words => 3..8, :first_word => "A", :punctuation => "!!!"
     # => "A dense mob of our. Gods on that Challenger. Invariably to safety though. Weaponless but it my! Some bandy-legged lurching creature!!!"       
 
 If you just want to use a single, global instance, you can initialize and access it this way:
@@ -83,11 +83,11 @@ If you just want to use a single, global instance, you can initialize and access
     LiterateRandomizer.global(options={})
 
     # after the first call, options are ignored and the existing randomizer is returned
-    LiterateRandomizer.global.sentance
+    LiterateRandomizer.global.sentence
     # => "Muscular arms round opening of sorts while Lord John Roxton." 
 
     # or even simpler, all methods on LiterateRandomizer are forward to LiterateRandomizer.global:
-    LiterateRandomizer.paragraph(:sentances => 3, :words => 3)
+    LiterateRandomizer.paragraph(:sentences => 3, :words => 3)
     # => "Drama which would. Wrong fashion which. Throw them there."
 
 ## Contributing
