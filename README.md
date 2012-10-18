@@ -29,7 +29,7 @@ Or install it yourself as:
 
 When creating a randomizer, there are a few options. The source_material should be a large selection of english text. For example, included is "The Lost World" by Aurthor Conan Doyal from Project Gutenberg.
 
-  options:
+    options:
       :source_material => string OR
       :source_material_file => filename
       :randomizer => Random.new(seed=0)
@@ -37,7 +37,7 @@ When creating a randomizer, there are a few options. The source_material should 
 
 Here are the options for the paragraph method:
 
-  options:
+    options:
       :first_word => nil - the start word
       :words => range or int - number of words in sentance
       :sentances => range or int - number of sentances in paragraph
