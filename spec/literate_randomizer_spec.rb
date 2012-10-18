@@ -80,7 +80,7 @@ describe LiterateRandomizer do
     LiterateRandomizer.respond_to?(:fonsfoaihdsfa).should == false
     LiterateRandomizer.word.should == "own"
     LiterateRandomizer.sentance.should == "Beak filled in the side of Vertebrate Evolution and up into private."
-    LiterateRandomizer.paragraph.should == "GUTENBERG-tm concept of their rat-trap grip upon Challenger of the carrying of! Precipices of me! Telling you with great enterprise upon their own eventual goal and it in a liar. The complete your. Historical architecture elaborated slowly defined our heads there came upon their leathery. Their signs of. Elusive enemies while beneath the main river up in it because on a boiling."
+    LiterateRandomizer.paragraph.should == "GUTENBERG-tm concept of their rat-trap grip upon Challenger of the carrying of selfishness! Telling you with great enterprise upon their own eventual goal and it in a liar. The complete your. Historical architecture elaborated slowly defined our heads there came upon their leathery. Their signs of the time. Huge moth within. Fully vindicated had assembled a check which left an old dear."
   end
 
   it "global_randomizer_should forwarding should work" do
