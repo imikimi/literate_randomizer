@@ -5,7 +5,7 @@
 module LiterateRandomizer
 class MarkovChain
   DEFAULT_PUNCTUATION_DISTRIBUTION = %w{. . . . . . . . . . . . . . . . ? !}
-  PREPOSITION_REGEX = /^(the|to|and|a|in|that|it|if|of|is|was|for|on|as|an)$/
+  PREPOSITION_REGEX = /^(the|to|and|a|in|that|it|if|of|is|was|for|on|as|an|your|our|my|per|until)$/
   attr_accessor :randomizer, :init_options, :punctuation_distribution
   attr_reader :markov_words, :words, :first_words
 
