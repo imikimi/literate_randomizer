@@ -35,41 +35,40 @@ describe LiterateRandomizer do
   end
 
   it "sentance should return a random sentance" do
-    new_lr.sentance.should == "Bad form of my own chances are a riding-whip!"
+    new_lr.sentance.should == "Bad form of my own chances are a riding-whip."
   end
 
   it "sentance length should work" do
-    new_lr.sentance(:words => 1).should == "Bad?"
-    new_lr.sentance(:words => 3).should == "Bad job for?"
-    new_lr.sentance(:words => 5).should == "Bad job for a final?"
-    new_lr.sentance(:words => 7).should == "Bad job for a final credit of?"
-    new_lr.sentance(:words => 9).should == "Bad job for a final credit of the side?"
-    new_lr.sentance(:words => 2..7).should == "Bad job for a final credit?"
+    new_lr.sentance(:words => 1).should == "Bad."
+    new_lr.sentance(:words => 3).should == "Bad money if."
+    new_lr.sentance(:words => 5).should == "Bad money if ever come."
+    new_lr.sentance(:words => 7).should == "Bad money if ever come outwards at."
+    new_lr.sentance(:words => 9).should == "Bad money if ever come outwards at the side."
+    new_lr.sentance(:words => 2..7).should == "Bad job for a final credit."
   end
 
   it "successive calls should vary" do
     lr = new_lr
-    lr.sentance.should == "Bad form of my own chances are a riding-whip!"
-    lr.sentance.should == "Hit you that book down below as his tattered sketch-book which held."
-    lr.sentance.should == "Seated upon their journey up my sleeve and incalculable people start to-morrow!"
+    lr.sentance.should == "Bad form of my own chances are a riding-whip."
+    lr.sentance.should == "Hit you chaps think of battle Our young fellah when in Streatham."
+    lr.sentance.should == "Upward curves which should be through the whole tribe."
   end
 
   it "paragraph should work" do
-    lr = new_lr
-    lr.paragraph.should == "Bad form of my own chances are a riding-whip! Hit you that book down below as his tattered sketch-book which held. Seated upon their journey up my sleeve and incalculable people start to-morrow! Telling you propose to this half-educated age of the bushes at last supreme! Placed over us. Rubbing his strong sunlight struck me and Fate with the effect of. Columns until he came at a last. Elusive enemies while beneath the main river up in it because on a boiling. Burying its doe and knees and round his arms. Scraps of what came a Project Gutenberg-tm and the secret haunts."
+    new_lr.paragraph.should == "Bad form of my own chances are a riding-whip. Hit you chaps think of battle Our young fellah when in Streatham. Upward curves which should be through the whole tribe. Mend it at Edinburgh rose and it in diameter. Placed behind him. Rubbing his elephant-gun and sloth which way up to Project Gutenberg is going. Columns until he came at a last. Elusive enemies while beneath the main river up in it because on a boiling. Burying its coloring that skull and that there was able. Eventful moment of my clothes were to visit."
   end
 
   it "first_word should work" do
-    new_lr.paragraph(:sentances => 5, :words=>3).should == "Bad job for? Discreetly vague way. Melee in the. Gleam of a. Puffing red-faced irascible."
-    new_lr.paragraph(:sentances => 2..4, :words=>3).should == "Bad job for? Discreetly vague way. Melee in the."
+    new_lr.paragraph(:sentances => 5, :words=>3).should == "Bad money if. Discreetly vague way. Melee in that. Hopin that dreadful. Executive and hold."
+    new_lr.paragraph(:sentances => 2..4, :words=>3).should == "Bad money if. Discreetly vague way. Melee in that."
   end
 
   it "first_word should work" do
-    new_lr.paragraph(:first_word => "A",:sentances => 5, :words=>3).should == "A roaring rumbling. Instanced a most. Melee in the. Gleam of a. Puffing red-faced irascible."
+    new_lr.paragraph(:first_word => "A",:sentances => 5, :words=>3).should == "A roaring rumbling. Instanced a journalist. Eight after to-morrow. Hopin that dreadful. Executive and hold."
   end
 
   it "punctuation should work" do
-    new_lr.paragraph(:punctuation => "!!!",:sentances => 5, :words=>3).should == "Bad job for? Discreetly vague way. Melee in the. Gleam of a. Puffing as a!!!"
+    new_lr.paragraph(:punctuation => "!!!",:sentances => 5, :words=>3).should == "Bad money if. Discreetly vague way. Melee in that. Hopin that dreadful. Executive and hold!!!"
   end
 
   it "global_randomizer_should work" do
@@ -81,12 +80,12 @@ describe LiterateRandomizer do
     LiterateRandomizer.respond_to?(:fonsfoaihdsfa).should == false
     LiterateRandomizer.word.should == "own"
     LiterateRandomizer.sentance.should == "Beak filled in the side of Vertebrate Evolution and up into private."
-    LiterateRandomizer.paragraph.should == "GUTENBERG-tm concept of their rat-trap grip upon Challenger of the carrying of. Precipices of me. Telling you propose to this half-educated age of the bushes at last supreme! Placed over us. Rubbing his strong sunlight struck me and Fate with the effect of. Columns until he came at a last. Elusive enemies while beneath the main river up in it because on a boiling."
+    LiterateRandomizer.paragraph.should == "GUTENBERG-tm concept of their rat-trap grip upon Challenger of the carrying of! Precipices of me! Telling you with great enterprise upon their own eventual goal and it in a liar. The complete your. Historical architecture elaborated slowly defined our heads there came upon their leathery. Their signs of. Elusive enemies while beneath the main river up in it because on a boiling."
   end
 
   it "global_randomizer_should forwarding should work" do
-    LiterateRandomizer.paragraphs(:words =>2, :sentances => 2).should == "Bad job? Instanced a.\n\nEight after. Hopin that.\n\nGleam of. Puffing red-faced.\n\nDiscover a! Mass of."
-    LiterateRandomizer.paragraphs(:words =>2, :sentances => 2, :join=>"--").should == "Telling you! Mend it.--Considerate of. Albany and?--Fame or. The weak."
-    LiterateRandomizer.paragraphs(:words =>2, :sentances => 2, :join=>false).should == ["Prime mover. Historical architecture!", "Reporters down! Again the.", "Their position. Dressing down.", "Gigantic old. Huge steamers."]
+    LiterateRandomizer.paragraphs(:words =>2, :sentances => 2).should == "Bad money. Instanced a.\n\nFLAIL OF. Melee in.\n\nHit you. Executive and.\n\nHopes and. Puffing red-faced."
+    LiterateRandomizer.paragraphs(:words =>2, :sentances => 2, :join=>"--").should == "Pick holes. Telling you.--Mend it. Considerate of!--Albany and! Fame or?--The weak. Prime mover."
+    LiterateRandomizer.paragraphs(:words =>2, :sentances => 2, :join=>false).should == ["Reporters down. Again the.", "Their position. Dressing down.", "Chandeliers in. Although every."]
   end
 end
