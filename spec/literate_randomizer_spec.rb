@@ -69,6 +69,6 @@ describe LiterateRandomizer do
   end
 
   it "global_randomizer_should work" do
-    LiterateRandomizer::global.class.should == LiterateRandomizer::MarkovChain
+    LiterateRandomizer.global.class.should == LiterateRandomizer::MarkovChain
   end
 end

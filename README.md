@@ -22,6 +22,7 @@ Example:
 
     require 'literate_randomizer'
 
+    lr = LiterateRandomizer.create
     lr.word
     # => "frivolous" 
     lr.sentance
@@ -31,7 +32,7 @@ Example:
 
 When creating a randomizer, there are a few options. The source_material should be a large selection of english text. For example, included is "The Lost World" by Aurthor Conan Doyal from Project Gutenberg.
 
-    options:
+    LiterateRandomizer.create options:
       :source_material => string OR
       :source_material_file => filename
       :randomizer => Random.new(seed=0)
@@ -39,7 +40,7 @@ When creating a randomizer, there are a few options. The source_material should 
 
 Here are the options for the paragraph method:
 
-    options:
+    LiterateRandomizer.create.paragraph options:
       :first_word => nil - the start word
       :words => range or int - number of words in sentance
       :sentances => range or int - number of sentances in paragraph
@@ -54,7 +55,7 @@ If you just want to use a single, global instance, you can initialize and access
 
     # initialize on first call
     # use the same options as .create
-    LiterateRandomizer::global(options={})
+    LiterateRandomizer.global(options={})
 
     # after the first call, options are ignored and the existing randomizer is returned
     LiterateRandomizer::global.sentance
