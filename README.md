@@ -45,7 +45,7 @@ Here are the options for the paragraph method:
 
 Example:
 
-    lr.paragraph :sentances => 5, :words => 3..8, :first_word => "A", :punctuation => "!!!"                        0
+    lr.paragraph :sentances => 5, :words => 3..8, :first_word => "A", :punctuation => "!!!"
     # => "A dense mob of our. Gods on that Challenger. Invariably to safety though. Weaponless but it my! Some bandy-legged lurching creature!!!"       
 
 ## Contributing
