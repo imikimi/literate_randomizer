@@ -92,7 +92,7 @@ If you just want to use a single, global instance, you can initialize and access
 
 ## Inspiration
 
-Thanks to Tim Riley for getting me started on the right track with this <a href="http://openmonkey.com/blog/2008/10/23/using-markov-chains-to-provide-english-language-seed-data-for-your-rails-application/">block post</a>.
+Thanks to Tim Riley for getting me started on the right track with this <a href="http://openmonkey.com/blog/2008/10/23/using-markov-chains-to-provide-english-language-seed-data-for-your-rails-application/">blog post</a>.
 
 ## Contributing
 
