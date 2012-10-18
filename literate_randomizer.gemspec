@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["shanebdavis@gmail.com"]
   gem.description   = %q{A random sentence and paragraph generator gem. Using Markov chains, this generates near-english prose.}
   gem.summary       = %q{A random sentence and paragraph generator gem. Using Markov chains, this generates near-english prose.}
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/Imikimi-LLC/literate_randomizer"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
