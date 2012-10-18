@@ -97,12 +97,6 @@ class MarkovChain
     populate
   end
 
-  class << self
-    def global(options={})
-      @global_randomizer = MarkovChain.new options
-    end
-  end
-
   def inspect
     "#<#{self.class}: #{@words.length} words, #{@markov_words.length} word-chains, #{@first_words.length} first_words>"
   end
@@ -174,6 +168,28 @@ class MarkovChain
       op.delete :first_word unless i==0
       sentance op
     end.join(" ")
+  end
+
+  # return a random paragraphs
+  # options:
+  #   * :first_word => nil - the first word of the paragraph
+  #   * :words => range or int - number of words in sentance
+  #   * :sentances => range or int - number of sentances in paragraph
+  #   * :paragraphs => range or int - number of paragraphs in paragraph
+  #   * :join => "\n\n" - join the paragraphs. if :join => false, returns an array of the paragraphs
+  #   * :punctuation => nil - punction to end the paragraph with (nil == randomly selected from punctuation_distribution)
+  def paragraphs(options={})
+    count = rand_count options[:paragraphs] || (3..5)
+    join_str = options[:join]
+
+    res = count.times.collect do |i|
+      op = options.clone
+      op.delete :punctuation unless i==count-1
+      op.delete :first_word unless i==0
+      paragraph op
+    end
+
+    join_str!=false ? res.join(join_str || "\n\n") : res
   end
 end
 end

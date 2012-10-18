@@ -8,6 +8,10 @@ describe LiterateRandomizer do
     $lr
   end
 
+  before(:each) do
+    LiterateRandomizer.global.randomizer = Random.new(1)
+  end
+
   it "should be possible to create a randomizer" do
     lr = new_lr
     lr.should_not == nil
@@ -70,5 +74,19 @@ describe LiterateRandomizer do
 
   it "global_randomizer_should work" do
     LiterateRandomizer.global.class.should == LiterateRandomizer::MarkovChain
+  end
+
+  it "global_randomizer_should forwarding should work" do
+    LiterateRandomizer.respond_to?(:paragraph).should == true
+    LiterateRandomizer.respond_to?(:fonsfoaihdsfa).should == false
+    LiterateRandomizer.word.should == "own"
+    LiterateRandomizer.sentance.should == "Beak filled in the side of Vertebrate Evolution and up into private."
+    LiterateRandomizer.paragraph.should == "GUTENBERG-tm concept of their rat-trap grip upon Challenger of the carrying of. Precipices of me. Telling you propose to this half-educated age of the bushes at last supreme! Placed over us. Rubbing his strong sunlight struck me and Fate with the effect of. Columns until he came at a. Elusive enemies while beneath the main river up in it because on."
+  end
+
+  it "global_randomizer_should forwarding should work" do
+    LiterateRandomizer.paragraphs(:words =>2, :sentances => 2).should == "Bad job?\n\nInstanced a.\n\nEight after.\n\nHopin that."
+    LiterateRandomizer.paragraphs(:words =>2, :sentances => 2, :join=>"--").should == "Executive and.--Puffing red-faced.--Discover a!"
+    LiterateRandomizer.paragraphs(:words =>2, :sentances => 2, :join=>false).should == ["Sharply at!", "Telling you!", "Mend it.", "Considerate of."]
   end
 end
