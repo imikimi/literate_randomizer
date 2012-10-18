@@ -31,7 +31,7 @@ Example:
     # => "Muscular arms round opening of sorts while Lord John Roxton." 
 
     lr.paragraph
-    # => "Tapped by his feet and the sign of the woods partly! Promoters might find such a row some rough hulking creatures we get a! Prove to think if we killed him state visit http While. Trusted ourselves and leaving the temperature ranges from the. Formally declared that if he will want to a howling the. Attentive neutrality. Helped to place where we heard the wide slow-moving clay-tinted stream and his. Itself as yet I was one circle of leathery wings as will understand." 
+    # => "Fulmination against the wandering that the woes of this. Particular package of the back to matchwood. File with hideous jaws of Southampton. Adventure and he. Skewered on to pledge." 
 
     puts lr.paragraphs
 
