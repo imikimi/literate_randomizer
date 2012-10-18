@@ -155,14 +155,19 @@ class MarkovChain
   
   # return a random paragraph
   # options:
-  #   * :first_word => nil - the start word
+  #   * :first_word => nil - the first word of the paragraph
   #   * :words => range or int - number of words in sentance
   #   * :sentances => range or int - number of sentances in paragraph
-  #   * :punctuation => nil - punction to end the sentance with (nil == randomly selected from punctuation_distribution)
+  #   * :punctuation => nil - punction to end the paragraph with (nil == randomly selected from punctuation_distribution)
   def paragraph(options={})
     count = rand_count options[:sentances] || (5..15)
 
-    count.times.collect {sentance(options)}.join(" ")
+    count.times.collect do |i|
+      op = options.clone
+      op.delete :punctuation unless i==count-1
+      op.delete :first_word unless i==0
+      sentance op
+    end.join(" ")
   end
 end
 end
