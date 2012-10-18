@@ -1,11 +1,12 @@
-#source: http://openmonkey.com/blog/2008/10/23/using-markov-chains-to-provide-english-language-seed-data-for-your-rails-application/
-# Tim Riley
-# Gemified by Shane Brinkman-Davis
+# Inspiration:
+#   http://openmonkey.com/blog/2008/10/23/using-markov-chains-to-provide-english-language-seed-data-for-your-rails-application/
+#   by Tim Riley
+# by Shane Brinkman-Davis
 
 module LiterateRandomizer
 class MarkovChain
   DEFAULT_PUNCTUATION_DISTRIBUTION = %w{. . . . . . . . . . . . . . . . ? !}
-  PREPOSITION_REGEX = /^(the|to|and|a|in|that|it|if|of|is|was|for|on|as|an|your|our|my|per|until)$/
+  PREPOSITION_REGEX = /^(the|to|or|and|a|in|that|it|if|of|is|was|for|on|as|an|your|our|my|per|until)$/
   attr_accessor :randomizer, :init_options, :punctuation_distribution
   attr_reader :markov_words, :words, :first_words
 
