@@ -4,6 +4,7 @@
 
 module LiterateRandomizer
 class MarkovChain
+  DEFAULT_PUNCTUATION_DISTRIBUTION = %w{. . . . . . . . ? !}
   attr_accessor :randomizer, :init_options, :punctuation_distribution
   attr_reader :markov_words, :words, :first_words
 
@@ -84,14 +85,14 @@ class MarkovChain
   end
 
   # options:
-  #     :source_material => string
+  #     :source_material => string OR
   #     :source_material_file => filename
-  #     :randomizer - responds to .rand(limit)
-  #     :punctuation_distribution => %w{. . . . . . . . ? !} - punctiation is randomly selected from this array
+  #     :randomizer - responds to .rand(limit) - this primarilly exists for testing
+  #     :punctuation_distribution => DEFAULT_PUNCTUATION_DISTRIBUTION - punctiation is randomly selected from this array
   def initialize(options={})
     @init_options = options
     @randomizer = randomizer || Random.new()
-    @punctuation_distribution = options[:punctuation_distribution] || %w{. . . . . . . . ? !}
+    @punctuation_distribution = options[:punctuation_distribution] || DEFAULT_PUNCTUATION_DISTRIBUTION
 
     populate
   end
@@ -141,7 +142,7 @@ class MarkovChain
   # options:
   #   * :first_word => nil - the start word
   #   * :words => range or int - number of words in sentance
-  #   * :punctuation => nil - punction to end the sentance with (nil == randomly selected)
+  #   * :punctuation => nil - punction to end the sentance with (nil == randomly selected from punctuation_distribution)
   def sentance(options={})
     word = options[:first_word] || self.markov_word
     count = rand_count options[:words] || (3..15)
@@ -152,12 +153,12 @@ class MarkovChain
     end.compact.join(" ") + punctuation)
   end
   
-  # return a random sentance
+  # return a random paragraph
   # options:
   #   * :first_word => nil - the start word
   #   * :words => range or int - number of words in sentance
   #   * :sentances => range or int - number of sentances in paragraph
-  #   * :punctuation => nil - punction to end the sentance with (nil == randomly selected)
+  #   * :punctuation => nil - punction to end the sentance with (nil == randomly selected from punctuation_distribution)
   def paragraph(options={})
     count = rand_count options[:sentances] || (5..15)
 
