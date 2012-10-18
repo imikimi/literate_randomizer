@@ -18,6 +18,8 @@ Or install it yourself as:
 
 ## Usage
 
+Example:
+
     require 'literate_randomizer'
 
     lr.word
@@ -43,7 +45,7 @@ Here are the options for the paragraph method:
       :sentances => range or int - number of sentances in paragraph
       :punctuation => nil - punction to end the sentance with (nil == randomly selected from punctuation_distribution)
 
-Example:
+Advanced example:
 
     lr.paragraph :sentances => 5, :words => 3..8, :first_word => "A", :punctuation => "!!!"
     # => "A dense mob of our. Gods on that Challenger. Invariably to safety though. Weaponless but it my! Some bandy-legged lurching creature!!!"       
