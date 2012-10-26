@@ -51,7 +51,7 @@ When creating a randomizer, there are a few options. The source_material should 
       :source_material => string OR
       :source_material_file => filename
       :randomizer => Random.new(seed=0)
-      :punctuation_distribution => DEFAULT_PUNCTUATION_DISTRIBUTION - punctiation is randomly selected from this array
+      :punctuation_distribution => DEFAULT_PUNCTUATION_DISTRIBUTION - punctuation is randomly selected from this array
 
 **paragraph** options:
 
@@ -59,7 +59,7 @@ When creating a randomizer, there are a few options. The source_material should 
       :first_word => nil - the start word
       :words => range or int - number of words in sentence
       :sentences => range or int - number of sentences in paragraph
-      :punctuation => nil - punction to end the sentence with (nil == randomly selected from punctuation_distribution)
+      :punctuation => nil - punctuation to end the sentence with (nil == randomly selected from punctuation_distribution)
 
 **paragraphs** options:
 
@@ -67,7 +67,7 @@ When creating a randomizer, there are a few options. The source_material should 
       :first_word => nil - the first word of the paragraph
       :words => range or int - number of words in sentence
       :sentences => range or int - number of sentences in paragraph
-      :punctuation => nil - punction to end the paragraph with (nil == randomly selected from punctuation_distribution)
+      :punctuation => nil - punctuation to end the paragraph with (nil == randomly selected from punctuation_distribution)
       :paragraphs => range or int - number of paragraphs in paragraph
       :join => "\n\n" - join the paragraphs. if :join => false, returns an array of the paragraphs
 
