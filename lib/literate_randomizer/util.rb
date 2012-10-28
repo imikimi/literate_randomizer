@@ -1,4 +1,6 @@
 module LiterateRandomizer
+
+# A few utility methods
 class Util
   class << self
 

@@ -1,6 +1,11 @@
 module LiterateRandomizer
+
+# The main class. Each instance has its own random number generator and can work against its own training source-material.
 class Randomizer
+  # The default punctuation distribution. Punctuation is pulled randomly from this array. It can contain any string.
   DEFAULT_PUNCTUATION_DISTRIBUTION = %w{. . . . . . . . . . . . . . . . ? !}
+
+  # LiterateRandomizer prefers to not end sentences with words that match the following regexp:
   PREPOSITION_REGEX = /^(had|the|to|or|and|a|in|that|it|if|of|is|was|for|on|as|an|your|our|my|per|until)$/
 
 
@@ -22,6 +27,8 @@ class Randomizer
 
   private
 
+  # Check to see if the sentence ends in a PREPOSITION_REGEX word.
+  # If so, add more words up to max-words until it does.
   def extend_trailing_preposition(max_words,words)
     while words.length < max_words && words[-1] && words[-1][PREPOSITION_REGEX]
       words << model.next_word(words[-1],randomizer)

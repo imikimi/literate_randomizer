@@ -4,6 +4,8 @@
 # by Shane Brinkman-Davis
 
 module LiterateRandomizer
+
+# The Markov-Chain bi-gram model. Primary purpose is, given a word, return the next word that is "likely" based on the source material.
 class MarkovModel
 
   # The source of all random values. Must implement: #rand(limit)

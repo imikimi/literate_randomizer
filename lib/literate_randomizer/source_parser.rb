@@ -1,7 +1,11 @@
 module LiterateRandomizer
+
+# Parse the source material and provide "each_sentence" - an easy way to walk the source material.
 class SourceParser
+  private
   attr_reader :init_options
 
+  public
   # Options:
   #
   # * :source_material => string OR
@@ -10,6 +14,7 @@ class SourceParser
     @init_options = options
   end
 
+  # read the default source material included with the gem
   def default_source_material
     File.expand_path File.join(File.dirname(__FILE__),"..","..","data","the_lost_world_by_arthur_conan_doyle.txt")
   end
@@ -22,6 +27,8 @@ class SourceParser
     options[:source_material] || File.read(options[:source_material_file] || default_source_material)
   end
 
+  # Read the source material and split it into sentences
+  # NOTE: this re-reads the source material each time. Usually this only needs to happen once and it would waste memory to keep it around.
   def source_sentences
     source_material.split(/([.?!"]($|\s)|\n\s*\n)+/)
   end
