@@ -16,24 +16,22 @@ Or install it yourself as:
 
     $ gem install literate_randomizer
 
-## Usage
+## Basic Usage (global instance)
 
-Example:
+The simplest way to use LiterateRandomizer is the global Randommizer instance: LiterateRandomizer.global. Any method you invoke on LiterateRandomizer gets forwarded to this instance. Examples:
 
     require 'literate_randomizer'
 
-    lr = LiterateRandomizer.create
+    LiterateRandomizer.word
+    # => "frivolous"
 
-    lr.word
-    # => "frivolous" 
+    LiterateRandomizer.sentence
+    # => "Muscular arms round opening of sorts while Lord John Roxton."
 
-    lr.sentence
-    # => "Muscular arms round opening of sorts while Lord John Roxton." 
+    LiterateRandomizer.paragraph
+    # => "Fulmination against the wandering that the woes of this. Particular package of the back to matchwood. File with hideous jaws of Southampton. Adventure and he. Skewered on to pledge."
 
-    lr.paragraph
-    # => "Fulmination against the wandering that the woes of this. Particular package of the back to matchwood. File with hideous jaws of Southampton. Adventure and he. Skewered on to pledge." 
-
-    puts lr.paragraphs
+    puts LiterateRandomizer.paragraphs
 
 The last line outputs:
 
@@ -73,8 +71,8 @@ When creating a randomizer, there are a few options. The source_material should 
 
 Advanced example:
 
-    lr.paragraph :sentences => 5, :words => 3..8, :first_word => "A", :punctuation => "!!!"
-    # => "A dense mob of our. Gods on that Challenger. Invariably to safety though. Weaponless but it my! Some bandy-legged lurching creature!!!"       
+    LiterateRandomizer.paragraph :sentences => 5, :words => 3..8, :first_word => "A", :punctuation => "!!!"
+    # => "A dense mob of our. Gods on that Challenger. Invariably to safety though. Weaponless but it my! Some bandy-legged lurching creature!!!"
 
 If you just want to use a single, global instance, you can initialize and access it this way:
 
@@ -84,7 +82,7 @@ If you just want to use a single, global instance, you can initialize and access
 
     # after the first call, options are ignored and the existing randomizer is returned
     LiterateRandomizer.global.sentence
-    # => "Muscular arms round opening of sorts while Lord John Roxton." 
+    # => "Muscular arms round opening of sorts while Lord John Roxton."
 
     # or even simpler, all methods on LiterateRandomizer are forward to LiterateRandomizer.global:
     LiterateRandomizer.paragraph(:sentences => 3, :words => 3)
