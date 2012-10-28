@@ -92,6 +92,15 @@ If you just want to use a single, global instance, you can initialize and access
 
 Thanks to Tim Riley for getting me started on the right track with this <a href="http://openmonkey.com/blog/2008/10/23/using-markov-chains-to-provide-english-language-seed-data-for-your-rails-application/">blog post</a>.
 
+## Changelog
+
+### v0.4.0
+
+* Random sentences now start with a word that starts a sentence in the source-material.
+* Improved parsing of source-text. More work to do here, though. (For example, "Mr." is treated as a sentence end.)
+* Tests are now "random-agnostic". Every change in the randomizer effects the random output. So, small changes broke all tests. No longer!
+* Major code refactor: Created Randomizer, SourceParser and Util classes
+
 ## Contributing
 
 1. Fork it
