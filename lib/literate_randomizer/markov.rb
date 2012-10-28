@@ -7,8 +7,30 @@ module LiterateRandomizer
 class MarkovChain
   DEFAULT_PUNCTUATION_DISTRIBUTION = %w{. . . . . . . . . . . . . . . . ? !}
   PREPOSITION_REGEX = /^(had|the|to|or|and|a|in|that|it|if|of|is|was|for|on|as|an|your|our|my|per|until)$/
-  attr_accessor :randomizer, :init_options, :punctuation_distribution
-  attr_reader :markov_words, :words, :first_words
+
+  # The source of all random values. Must implement: #rand(limit)
+  #
+  # Default: Random.new()
+  attr_accessor :randomizer
+
+  # To end setences, one of the strings in this array is selected at random (uniform-distribution)
+  #
+  # Default: DEFAULT_PUNCTUATION_DISTRIBUTION
+  attr_accessor :punctuation_distribution
+
+  # A hash (string => true) of all unique words found in the source-material.
+  attr_reader :words
+
+  # An array of all words that appear at the beginning of sentences in the source-material.
+  attr_reader :first_words
+
+  # Data structure incoding all Markov-Chains (bi-grams) found in the source-material.
+  attr_reader :markov_chains
+
+  private
+
+  # cached copy of the options passed in on initialization
+  attr_accessor :init_options
 
   def default_source_material
     File.expand_path File.join(File.dirname(__FILE__),"..","..","data","the_lost_world_by_arthur_conan_doyle.txt")
@@ -21,10 +43,10 @@ class MarkovChain
     options[:source_material] || File.read(options[:source_material_file] || default_source_material)
   end
 
-
+  # add a word/next_word pair to @markov_chains
   def chain_add(word, next_word)
-    markov_words[word] ||= Hash.new(0)
-    markov_words[word][next_word] += 1
+    markov_chains[word] ||= Hash.new(0)
+    markov_chains[word][next_word] += 1
   end
 
   # remove any non-alpha characters from word
@@ -34,10 +56,12 @@ class MarkovChain
     (word && word.strip) || ""
   end
 
-  def scrub_word_list(word_list)
-    word_list.split(/[\s]+/).collect {|a| scrub_word(a)}.select {|a| a.length>0}
+  # clean up all words in  a string, returning an array of clean words
+  def scrub_sentence(sentence)
+    sentence.split(/[\s]+/).collect {|a| scrub_word(a)}.select {|a| a.length>0}
   end
 
+  # return word with the first letter capitalized
   def capitalize(word)
     word.chars.first.upcase+word[1..-1]
   end
@@ -48,30 +72,30 @@ class MarkovChain
 
   # remove all dead-end words
   def prune_markov_words
-    @markov_words.keys.each do |key|
-      @markov_key.delete(key) if @markov_words[key].length == 0
+    @markov_chains.keys.each do |key|
+      @markov_key.delete(key) if @markov_chains[key].length == 0
     end
   end
 
   def populate_markov_words
-    @markov_words = {}
+    @markov_chains = {}
     @words = {}
     @first_words = {}
     source_sentences.each do |sentence|
-      word_list = scrub_word_list sentence
+      word_list = scrub_sentence sentence
       @first_words[word_list[0]] = true
       word_list.each_with_index do |word, index|
         @words[word] = true
         next_word = word_list[index+1]
         chain_add word, next_word if next_word
       end
-    end   
-    prune_markov_words 
+    end
+    prune_markov_words
   end
 
   def populate_markov_sum
     @markov_weighted_sum = {}
-    @markov_words.each do |word,followers|
+    @markov_chains.each do |word,followers|
       @markov_weighted_sum[word] = followers.inject(0) {|sum,kv| sum + kv[1]}
     end
   end
@@ -81,68 +105,27 @@ class MarkovChain
     populate_markov_sum
   end
 
+  # r can be an Integer of a Range. If an intenger, return r, else, return a the maximum value in the range.
   def max(r)
     return r if r.kind_of? Integer
     r.max
   end
 
+  # r can be an Integer of a Range. If an intenger, return r, else, return a random number within the range.
   def rand_count(r)
     return r if r.kind_of? Integer
     rand(r.max-r.min)+r.min
   end
 
-  # options:
-  #     :source_material => string OR
-  #     :source_material_file => filename
-  #     :randomizer - responds to .rand(limit) - this primarilly exists for testing
-  #     :punctuation_distribution => DEFAULT_PUNCTUATION_DISTRIBUTION - punctiation is randomly selected from this array
-  def initialize(options={})
-    @init_options = options
-    @randomizer = randomizer || Random.new()
-    @punctuation_distribution = options[:punctuation_distribution] || DEFAULT_PUNCTUATION_DISTRIBUTION
-
-    populate
-  end
-
-  def inspect
-    "#<#{self.class}: #{@words.length} words, #{@markov_words.length} word-chains, #{@first_words.length} first_words>"
-  end
-
   def next_word(word)
-    return if !markov_words[word]
+    return if !markov_chains[word]
     sum = @markov_weighted_sum[word]
     random = rand(sum)+1
     partial_sum = 0
-    (markov_words[word].find do |w, count|
+    (markov_chains[word].find do |w, count|
       partial_sum += count
       w!=word && partial_sum >= random
     end||[]).first
-  end
-  
-  def rand(limit=nil)
-    @randomizer.rand(limit)
-  end
-
-  # return a random word  
-  def word
-    @cached_word_keys ||= words.keys
-    @cached_word_keys[rand(@cached_word_keys.length)]
-  end
-
-  # return a random first word of a sentence
-  def first_word 
-    @cached_first_word_keys ||= first_words.keys
-    @cached_first_word_keys[rand(@cached_first_word_keys.length)]
-  end
-
-  # return a random first word of a sentence
-  def markov_word 
-    @cached_markov_word_keys ||= markov_words.keys
-    @cached_markov_word_keys[rand(@cached_markov_word_keys.length)]
-  end
-
-  def punctuation
-    @punctuation_distribution[rand(@punctuation_distribution.length)]
   end
 
   def extend_trailing_preposition(max_words,words)
@@ -151,19 +134,71 @@ class MarkovChain
     end
     words
   end
-  
+
+  public
+  # Create a new instance. Each Markov randomizer instance can run against its own source_material.
+  #
+  # Options:
+  #
+  # * :source_material => string OR
+  # * :source_material_file => filename
+  # * :randomizer => Random.new # must respond to #rand(limit)
+  # * :punctuation_distribution => DEFAULT_PUNCTUATION_DISTRIBUTION #punctiation is randomly selected from this array
+  def initialize(options={})
+    @init_options = options
+    @randomizer = randomizer || Random.new
+    @punctuation_distribution = options[:punctuation_distribution] || DEFAULT_PUNCTUATION_DISTRIBUTION
+
+    populate
+  end
+
+  # Returns a quick summary of the instance.
+  def inspect
+    "#<#{self.class}: #{@words.length} words, #{@markov_chains.length} word-chains, #{@first_words.length} first_words>"
+  end
+
+  # return a random word
+  def word
+    @cached_word_keys ||= words.keys
+    @cached_word_keys[rand(@cached_word_keys.length)]
+  end
+
+  # return a random first word of a sentence
+  def first_word
+    @cached_first_word_keys ||= first_words.keys
+    @cached_first_word_keys[rand(@cached_first_word_keys.length)]
+  end
+
+  # return a random first word of a sentence
+  def markov_word
+    @cached_markov_word_keys ||= markov_chains.keys
+    @cached_markov_word_keys[rand(@cached_markov_word_keys.length)]
+  end
+
+  # return a random number generated by randomizer
+  def rand(limit=nil)
+    @randomizer.rand(limit)
+  end
+
+  # return a random end-sentence string from punctuation_distribution
+  def punctuation
+    @punctuation_distribution[rand(@punctuation_distribution.length)]
+  end
+
   # return a random sentence
-  # options:
-  #   * :first_word => nil - the start word
-  #   * :words => range or int - number of words in sentence
-  #   * :punctuation => nil - punction to end the sentence with (nil == randomly selected from punctuation_distribution)
+  #
+  # Options:
+  #
+  # * :first_word => nil - the start word
+  # * :words => range or int - number of words in sentence
+  # * :punctuation => nil - punction to end the sentence with (nil == randomly selected from punctuation_distribution)
   def sentence(options={})
     word = options[:first_word] || self.markov_word
     num_words_option = options[:words] || (3..15)
     count = rand_count num_words_option
     punctuation = options[:punctuation] || self.punctuation
 
-    words = count.times.collect do 
+    words = count.times.collect do
       word.tap {word = next_word(word)}
     end.compact
 
@@ -171,13 +206,15 @@ class MarkovChain
 
     capitalize words.compact.join(" ") + punctuation
   end
-  
+
   # return a random paragraph
-  # options:
-  #   * :first_word => nil - the first word of the paragraph
-  #   * :words => range or int - number of words in sentence
-  #   * :sentences => range or int - number of sentences in paragraph
-  #   * :punctuation => nil - punction to end the paragraph with (nil == randomly selected from punctuation_distribution)
+  #
+  # Options:
+  #
+  # * :first_word => nil - the first word of the paragraph
+  # * :words => range or int - number of words in sentence
+  # * :sentences => range or int - number of sentences in paragraph
+  # * :punctuation => nil - punction to end the paragraph with (nil == randomly selected from punctuation_distribution)
   def paragraph(options={})
     count = rand_count options[:sentences] || (5..15)
 
@@ -190,13 +227,15 @@ class MarkovChain
   end
 
   # return random paragraphs
-  # options:
-  #   * :first_word => nil - the first word of the paragraph
-  #   * :words => range or int - number of words in sentence
-  #   * :sentences => range or int - number of sentences in paragraph
-  #   * :paragraphs => range or int - number of paragraphs in paragraph
-  #   * :join => "\n\n" - join the paragraphs. if :join => false, returns an array of the paragraphs
-  #   * :punctuation => nil - punction to end the paragraph with (nil == randomly selected from punctuation_distribution)
+  #
+  # Options:
+  #
+  # * :first_word => nil - the first word of the paragraph
+  # * :words => range or int - number of words in sentence
+  # * :sentences => range or int - number of sentences in paragraph
+  # * :paragraphs => range or int - number of paragraphs in paragraph
+  # * :join => "\n\n" - join the paragraphs. if :join => false, returns an array of the paragraphs
+  # * :punctuation => nil - punction to end the paragraph with (nil == randomly selected from punctuation_distribution)
   def paragraphs(options={})
     count = rand_count options[:paragraphs] || (3..5)
     join_str = options[:join]

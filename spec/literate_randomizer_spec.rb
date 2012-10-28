@@ -25,11 +25,6 @@ describe LiterateRandomizer do
     new_lr.first_words.length.should == 754
   end
 
-  it "source_sentences.length should be the number of sentences in the file" do
-    new_lr.source_sentences.length.should == 10699
-    new_lr.source_sentences.length.should > new_lr.first_word.length
-  end
-
   it "word should return a random word" do
     new_lr.word.should == "own"
   end
