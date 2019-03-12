@@ -42,7 +42,7 @@ module LiterateRandomizer
     end
 
     # correctly mirrors method_missing
-    def respond_to?(method)
+    def respond_to?(method, include_private = false)
       super || global.respond_to?(method)
     end
   end
